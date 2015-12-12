@@ -375,8 +375,6 @@ def create():
             urlrequest = urlrequest + searchgenre +"&type=playlist"
             data = json.loads(urllib.urlopen(urlrequest).read())
             totalPlaylists = len(data["playlists"]['items'])
-            print "total Playlists"
-            print totalPlaylists
             return data["playlists"]['items'][randint(0,totalPlaylists-1)]['uri']
 
 
@@ -414,8 +412,15 @@ def create():
             longYoutube = "https://www.youtube.com/watch?v="+args
             return longYoutube
 
+        videotestID = youtube_search(demo_db['pets'])[1]
+
+
+        longvideo = getLongYoutube(videotestID)
+
 
         def saveAndShorten(args):
+
+
             """
             input: longlink
             output: shortlink
@@ -451,12 +456,14 @@ def create():
                         db[shortRandomLink] = args
                         return findKey(args)
 
+
             generateRandomAndSave(args)
+            #generateRandomAndSave(args)
             shortYout = "http://localhost:5000/short/"+findKey(args)
             return shortYout
 
 
-        longvideo = getLongYoutube(youtube_search(demo_db['pets'])[1])
+        
 
 
 
@@ -566,7 +573,8 @@ def create():
     
 
         return flask.render_template('all.html', \
-            youtubeId = youtube_search(demo_db['pets'])[1], \
+            #youtubeId = youtube_search(demo_db['pets'])[1], \
+            youtubeId = videotestID, \
             gifurl = searchGifOnGiphy(demo_db['gifs']), \
             quote = pullQuote()[0], quoteauthor = pullQuote()[1], \
             spotifyURL = uriSpot,\
